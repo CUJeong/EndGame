@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cuj.edge.home.dao.IFriendDao">
+
+	<select id="getFriendList" resultType="com.cuj.edge.home.vo.FriendVO">
+		SELECT 
+			fri_no,
+			fri_name,
+			fri_image,
+			fri_thanks,
+			fri_love,
+			fri_gender
+		FROM 
+			friends
+	</select>
+	
+	<select id="getFriend" resultType="com.cuj.edge.home.vo.FriendVO"
+		parameterType="int" >
+		SELECT 
+			fri_no,
+			fri_name,
+			fri_image,
+			fri_thanks,
+			fri_love,
+			fri_gender
+		FROM 
+			friends
+		WHERE 
+			fri_no = ${friNo}	
+	</select>
+	
+	
+	<update id="increaseLove" parameterType="com.cuj.edge.home.vo.Gift">
+		UPDATE friends
+		SET
+			fri_love=fri_love+${giftCount}
+		WHERE 
+			fri_no = ${friNo}
+	</update>
+
+
+</mapper>
