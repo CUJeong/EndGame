@@ -65,7 +65,6 @@
 			position: absolute;
 			width: 60px;
 			height: 70px;
-			background-color: orange;
 		}
 	
 		#coupon {
@@ -154,7 +153,9 @@
 	        </table>
 		</div>
 		
-		<div id="user"></div>
+		<div id="user">
+			<img id="userImage" alt=""  src="<%=request.getContextPath()%>/resources/image/down.png" width="80" height="100"/>
+		</div>
 		
 		<div id="coupon">
 			<table style="font-size: 20pt">
@@ -254,7 +255,7 @@
 			<table>
 				<tr>
 					<td>
-						<img id="profile" alt="" src="" width="240" height="300">
+						<img id="profile" alt="" src="" width="240" height="295">
 					</td>
 					<td style="width: 70%; padding-left: 20px">
 						<h2 id="thank"></h2>
@@ -290,6 +291,7 @@
 		var v_user = document.getElementById("user");
 		
 		var v_datas;
+		var v_tblName="coupon";
 		
         window.onload = function(){
     		v_container.style.left = v_windowWidth/2 - 700 + "px"; 
@@ -299,7 +301,6 @@
     		v_user.style.top = "148px";
     		v_user.style.left = "672px";
     		
-    		var v_tblName="coupon";
     		v_datas = JSON.parse(localStorage.getItem(v_tblName));
     		if(v_datas == null){
     			var v_coupon = {};
@@ -329,16 +330,19 @@
 		// 이동 함수
 		function f_move(){
 			if(v_state == "left"){
+				$("#userImage").attr("src", "<%=request.getContextPath()%>/resources/image/left.png");
 				v_temp = parseInt(v_user.style.left);
 				if(v_temp > v_length){
 					v_user.style.left = parseInt(v_user.style.left) - v_length + "px";
 				}
 			}else if(v_state == "right"){
+				$("#userImage").attr("src", "<%=request.getContextPath()%>/resources/image/right.png");
 				v_temp = parseInt(v_user.style.left);
 				if(v_temp < 1400 - v_length - 60){ // 너비(width) 에서 캐릭터 너비 60 뺌
 					v_user.style.left = parseInt(v_user.style.left) + v_length + "px";
 				}
 			}else if(v_state == "up"){
+				$("#userImage").attr("src", "<%=request.getContextPath()%>/resources/image/up.png");
 				v_temp = parseInt(v_user.style.top);	// 내 위치(top)
 				if(v_temp > v_length + 60){		// 높이 상한
 					v_user.style.top = parseInt(v_user.style.top) - v_length + "px";
@@ -358,6 +362,7 @@
 					}
 				}
 			}else if(v_state == "down"){
+				$("#userImage").attr("src", "<%=request.getContextPath()%>/resources/image/down.png");
 				v_temp = parseInt(v_user.style.top);
 				if(v_temp < 800 - v_length - 70){ // 높이(height) 800에서 캐릭터 높이 70 뺌 
 					v_user.style.top = parseInt(v_user.style.top) + v_length + "px";
@@ -383,10 +388,14 @@
         			f_toggleThank();
                 	// 엔딩 조건 여부 판단
                 	f_checkLove();
+        		}else if(v_toggleGiftWindow){
+        			// 선물창이 열렸을때 G키는 선물창 닫기
+        			f_toggleWindow();
         		}else{
         			// 대화창이 안열렸을때 G키는 friend 클릭
 	        		f_friendClick();
         		}
+        			
         	}else{
         		if(v_toggle){
         			return;
@@ -402,7 +411,7 @@
                 }else if(event.keyCode == "38"){
                 	if(v_toggleGiftWindow){
                 		$("#giftRange").val(parseInt($("#giftRange").val()) + 1);
-                		f_cgCount(parseInt($("#giftRange").val()));
+                		$("#giftCount").html(parseInt($("#giftRange").val()));
                 	}else{
 	                	v_state = "up";
 	                	f_move();
@@ -413,7 +422,7 @@
       				if(v_toggleGiftWindow){
       					// 마이너스(-)는 parseInt 안해도 문자열 더하기(+) 기능이 없어서 숫자 연산 됨
                 		$("#giftRange").val($("#giftRange").val() - 1);
-                		f_cgCount(parseInt($("#giftRange").val()));
+                		$("#giftCount").html(parseInt($("#giftRange").val()));
                 	}else{
 	                	v_state = "down";
 	                	f_move();
@@ -463,7 +472,18 @@
         		v_giftWindow.style.top = "-5000px";
         	}else{
         		v_toggleGiftWindow = true;
-        		$("#giftRange").attr("max", v_datas.count);
+        		var f_this = document.getElementById(v_friNo);
+        		var f_thisLove = parseInt(f_this.style.width) / 10;
+        		console.log(f_thisLove);
+        		if(v_datas.count < 10){
+        			if(v_datas.count + f_thisLove < 10){
+		        		$("#giftRange").attr("max", v_datas.count);
+        			}else{
+        				$("#giftRange").attr("max", (10 - f_thisLove));
+        			}
+        		}else{
+        			$("#giftRange").attr("max", (10 - f_thisLove));
+        		}
         		$("#giftName").html(v_friName + "에게 선물을 몇개 줄까요?");
         		$("#giftRange").val(0);
         		$("#giftCount").html(0);
@@ -480,7 +500,15 @@
         function f_gift(){
         	// 수량 가져옴
         	var v_valGiftRange = $("#giftRange").val();
-        	
+        	// 수량 0개로 엔터누르면 이벤트 발생 x
+        	if(v_valGiftRange == 0){
+        		f_checkLove();
+        		return;
+        	}
+			v_datas.count -= v_valGiftRange;
+			$("#countCoupon").html(v_datas.count);
+			localStorage.setItem(v_tblName, JSON.stringify(v_datas));
+			
         	$.ajax({
                 type:"post", 
                 url:'<c:url value="/gift" />',
@@ -521,7 +549,7 @@
     		cb.dispatchEvent(evt);  */
         }
         
-        // 태그 안에 있는 아이디 값을 전역 변수 v_friNo, f_friName에 담아준 후 f_getFriend() 실행
+        // 태그 안에 있는 아이디 값을 전역 변수 v_friNo, f_friName에 담아준 후 f_toggleWindow() 실행
         function f_getNo(thisNo){
         	v_friName = thisNo.id.split("|")[0];
         	v_friNo = thisNo.id.split("|")[1];
@@ -552,6 +580,7 @@
         
         // v_friNo를 이용하여 DB에서 해당 사람의 정보만 가져옴
         function f_getFriend(){
+        	$("#profile").attr("src", "");
         	$.ajax({
                 type:"post", 
                 url:'<c:url value="/friend" />',
@@ -587,6 +616,7 @@
         	});
         }
         
+        // 감사 인사 한글자씩 출력
         function f_animation(){
 			$("#thank").html($("#thank").html() + v_aniText[v_aniIdx]);
 			
@@ -597,8 +627,10 @@
 			}
 			
 			if(v_aniText[v_aniIdx] == " "){
+				// 띄어쓰기 부분은 좀더 길게 쉼, 속도 500 (윈도우에서는 느림)
 				setTimeout(f_animation, 500);
 			}else{
+				// 글자 출력 속도 200 (윈도우에서는 느림)
 				setTimeout(f_animation, 200);
 			}
         }
