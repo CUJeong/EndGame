@@ -221,7 +221,7 @@
 		// 쿠폰 떨어지는 갯수
 		var v_count = 40;
 		// 쿠폰 생성 속도
-		var v_dropSpeed = 5;
+		var v_dropSpeed = 4;
 		var v_endCheck = false;
 		function f_gameStart(){
 			var v_randNum = Math.floor(Math.random() * 4);
@@ -233,14 +233,14 @@
 				v_endCheck = true;
 				setTimeout(function(){
 					$("#goToHome").click();	
-				}, 5000);
+				}, 4500);
 				
 				return;
 			}
 			
 			v_count--;
 			
-			v_randNum = Math.floor(Math.random() * 5) + v_dropSpeed;
+			v_randNum = Math.floor(Math.random() * 4) + v_dropSpeed;
 			setTimeout(f_gameStart, (100 * v_randNum));
 		}
 		
@@ -290,7 +290,7 @@
 			}
 			
 			v_cuj++;
-			v_cujTimer = setTimeout(f_moveCuj, 300);
+			v_cujTimer = setTimeout(f_moveCuj, 200);
 		}
 		
 		// 쿠폰 차감

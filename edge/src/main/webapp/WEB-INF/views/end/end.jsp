@@ -54,7 +54,7 @@
 </head>
 <body>
 	
-	<audio src="<%=request.getContextPath()%>/resources/sound/god.mp3" autoplay controls id="myAudio" style="display: none"></audio>
+	<audio src="<%=request.getContextPath()%>/resources/sound/god.mp3" controls id="myAudio" style="display: none"></audio>
 
 	<div id="container">
 	
