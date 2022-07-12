@@ -81,11 +81,11 @@
 		</div>
 
 	</div>
-	<img src="<%=request.getContextPath()%>/resources/image/7.jpg" name="images"/>
-	<img src="<%=request.getContextPath()%>/resources/image/yugi.jpg" name="images"/>
-	<img src="<%=request.getContextPath()%>/resources/image/suzy_w.jpeg" name="images"/>
-	<img src="<%=request.getContextPath()%>/resources/image/su.png" name="images"/>
-	<img src="<%=request.getContextPath()%>/resources/image/whoru.jpg" name="images"/>
+	<img src="<%=request.getContextPath()%>/resources/image/1조.jpg" name="images"/>
+	<img src="<%=request.getContextPath()%>/resources/image/2조.jpg" name="images"/>
+	<img src="<%=request.getContextPath()%>/resources/image/1조.jpg" name="images"/>
+	<img src="<%=request.getContextPath()%>/resources/image/2조.jpg" name="images"/>
+	<img src="<%=request.getContextPath()%>/resources/image/1조.jpg" name="images"/>
 
 
 	<script type="text/javascript">
@@ -133,7 +133,7 @@
         		f_fadeIn(v_images[v_idx], 0);
 	        	// v_images[v_idx].style.visibility = "visible";
     	    	v_idx++;
-	        	setTimeout(f_ci, 10000);
+	        	setTimeout(f_ci, 9000);
         	}
         }
         

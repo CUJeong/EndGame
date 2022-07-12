@@ -628,10 +628,10 @@
 			
 			if(v_aniText[v_aniIdx] == " "){
 				// 띄어쓰기 부분은 좀더 길게 쉼, 속도 500 (윈도우에서는 느림)
-				setTimeout(f_animation, 500);
+				setTimeout(f_animation, 300);
 			}else{
 				// 글자 출력 속도 200 (윈도우에서는 느림)
-				setTimeout(f_animation, 200);
+				setTimeout(f_animation, 150);
 			}
         }
         
