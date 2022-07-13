@@ -83,8 +83,8 @@
 	</div>
 	<img src="<%=request.getContextPath()%>/resources/image/1조.jpg" name="images"/>
 	<img src="<%=request.getContextPath()%>/resources/image/2조.jpg" name="images"/>
-	<img src="<%=request.getContextPath()%>/resources/image/1조.jpg" name="images"/>
-	<img src="<%=request.getContextPath()%>/resources/image/2조.jpg" name="images"/>
+	<img src="<%=request.getContextPath()%>/resources/image/3조.jpg" name="images"/>
+	<img src="<%=request.getContextPath()%>/resources/image/4조.jpg" name="images"/>
 	<img src="<%=request.getContextPath()%>/resources/image/1조.jpg" name="images"/>
 
 
